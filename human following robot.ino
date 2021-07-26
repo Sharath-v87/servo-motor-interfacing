@@ -10,7 +10,7 @@ int echo = 4;
 int time;
 float distance;
 float dist;
-int angles[] = {0,90,180};
+int angles[] = {0,65,150};
 
 float ultrasonicop(){
   digitalWrite(trig, LOW);
@@ -98,6 +98,7 @@ void servoleft(){
 void detect(){
   for(int i=0; i<3; i++){
     sr5.write(angles[i]);
+    delay(3000);
     float detectop = ultrasonicop();
     if(detectop<=40 && angles[i] == 0){
       servostop();
@@ -105,15 +106,19 @@ void detect(){
       for(int loopa=0; loopa <= 10; loopa++){
         servoleft();
         delay(500);
+        
       }
+      sr5.write(65);
     }
-    else if(detectop<=40 && angles[i] == 180){
+    else if(detectop<=40 && angles[i] == 150){
       servostop();
       delay(2000);
       for(int loopb=0; loopb <= 10; loopb++){
         servoright();
         delay(500);
+                       
       }
+      sr5.write(65); 
     }
     delay(2000);
   }
