@@ -129,3 +129,19 @@ void setup(){
     sr5.attach(5);    
     Serial.begin(9600);
 }
+
+void loop(){
+    dist = ultrasonicop();
+    Serial.println("Distance : ");
+    Serial.println(dist);
+    if (dist <= 15.0){
+      servostop();
+      servobackward();
+    }
+    else if(dist > 15.0 && dist < 40.0){
+      servoforward();
+    }
+    else{
+      detect();
+    }
+}
