@@ -4,7 +4,6 @@ Servo sr1;
 Servo sr2;
 Servo sr3;
 Servo sr4;
-Servo sr5;
 int trig = 3;
 int echo = 4;
 int time;
@@ -55,8 +54,7 @@ void setup(){
     sr1.attach(9);
     sr2.attach(10);
     sr3.attach(11);
-    sr4.attach(6);
-    sr5.attach(5);    
+    sr4.attach(6);  
     Serial.begin(9600);
 }
 
