@@ -98,27 +98,31 @@ void servoleft(){
 void detect(){
   for(int i=0; i<3; i++){
     sr5.write(angles[i]);
-    delay(3000);
+    delay(1000);
     float detectop = ultrasonicop();
-    if(detectop<=40 && angles[i] == 0){
+    delay(3000);   
+    if(detectop<=40.0 && angles[i] == 0){
       servostop();
       delay(2000);
       for(int loopa=0; loopa <= 10; loopa++){
         servoleft();
-        delay(500);
+        delay(100);
         
       }
       sr5.write(65);
     }
-    else if(detectop<=40 && angles[i] == 150){
+    else if(detectop<=40.0 && angles[i] == 150){
       servostop();
       delay(2000);
       for(int loopb=0; loopb <= 10; loopb++){
         servoright();
-        delay(500);
+        delay(100);
                        
       }
       sr5.write(65); 
+    }
+    else if(detectop<=40.0 && angles[i] == 65){
+      return;
     }
     delay(2000);
   }
@@ -141,7 +145,7 @@ void loop(){
     Serial.println(dist);
     if (dist <= 15.0){
       servostop();
-      servobackward();
+      //servobackward();
     }
     else if(dist > 15.0 && dist < 40.0){
       servoforward();
