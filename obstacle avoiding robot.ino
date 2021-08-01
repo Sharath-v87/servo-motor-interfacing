@@ -100,7 +100,7 @@ void loop(){
             }
             avg=detectop/20;
             direction_values[i]=avg;
-            delay(3000);  
+            delay(300);  
         }
         Serial.println("values:");
         Serial.println(direction_values[0]);
@@ -111,7 +111,7 @@ void loop(){
           Serial.println("for");
         }
         else if(direction_values[0] >= 20.0){
-            for (int i=0; i<600; i++){
+            for (int i=0; i<130; i++){
               right();
               Serial.println("rig");              
             }    
@@ -119,7 +119,7 @@ void loop(){
             delay(2000);
         }
         else if(direction_values[2] >= 20.0){
-            for (int i=0; i<600; i++){
+            for (int i=0; i<130; i++){
               left();
               Serial.println("left");
             }    
@@ -127,7 +127,7 @@ void loop(){
             delay(2000);   
         }
         else if(direction_values[0] <= 20.0 && direction_values[2] <= 20.0){
-            for (int i=0; i<600; i++){
+            for (int i=0; i<170; i++){
               backward();
               Serial.println("back");
             }    
