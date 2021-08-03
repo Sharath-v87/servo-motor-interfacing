@@ -6,16 +6,15 @@ int LM2 = 9;
 int trig = 11;
 int echo = 12;
 Servo sensor;
-int time;
-float distance;
 float dist;
-int angles[] = {0,100,180};
+int angles[] = {0,180};
 float avg;
-float direction_values[3] = {};
 float temp;
 float distavg;
 
 float ultrasonicop(){
+  int time;
+  float distance;
   digitalWrite(trig, LOW);
   digitalWrite(echo, LOW);
   delayMicroseconds(2);
@@ -83,14 +82,15 @@ void loop(){
     }
     distavg = tot/30;
     Serial.println(distavg);    
-    if(distavg > 20.0){
+    if(distavg > 30.0){
         forward();
     }
     else {
         stop();
         Serial.println("stopped");
-        delay(2000);
-        for(int i=0; i<3; i++){
+        delay(1000);
+        int flag=0;
+        for(int i=0; i<2; i++){
             sensor.write(angles[i]);
             delay(1000);
             float detectop=0;
@@ -99,43 +99,37 @@ void loop(){
                 detectop += temp;
             }
             avg=detectop/20;
-            direction_values[i]=avg;
+            if(avg >= 30.0 && i==0){
+                for (int i=0; i<130; i++){
+                    right();
+                    Serial.println("rig");              
+                }    
+                stop();
+                flag = 1;
+                delay(2000);
+                break;
+            }
+            else if(avg >= 30.0 && i == 1){
+                for (int i=0; i<130; i++){
+                    left();
+                    Serial.println("left");
+                }    
+                stop();     
+                flag = 2;
+                delay(2000);   
+                break;
+            }
             delay(300);  
         }
-        Serial.println("values:");
-        Serial.println(direction_values[0]);
-        Serial.println(direction_values[1]);
-        Serial.println(direction_values[2]);
-        if(direction_values[1]>20.0){
-          forward();
-          Serial.println("for");
-        }
-        else if(direction_values[0] >= 20.0){
-            for (int i=0; i<130; i++){
-              right();
-              Serial.println("rig");              
-            }    
-            stop();
-            delay(2000);
-        }
-        else if(direction_values[2] >= 20.0){
-            for (int i=0; i<130; i++){
-              left();
-              Serial.println("left");
-            }    
-            stop();     
-            delay(2000);   
-        }
-        else if(direction_values[0] <= 20.0 && direction_values[2] <= 20.0){
-            for (int i=0; i<170; i++){
-              backward();
-              Serial.println("back");
+        if(flag !=1 && flag !=2){
+            for (int i=0; i<200; i++){
+                backward();
+                Serial.println("back");
             }    
             stop();    
             delay(2000);    
         }
         sensor.write(100);
-        
     }
   delay(400);    
  }
